@@ -1,0 +1,19 @@
+{
+    "name": "arhinful/laravel-mnotify",
+    "description": "laravel package for mnotify.net",
+    "type": "library",
+    "require": {},
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Arhinful\\LaravelMnotify\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Arhinful Emmanuel",
+            "email": "kofibusy@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev"
+}
