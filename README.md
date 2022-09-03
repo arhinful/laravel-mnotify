@@ -46,7 +46,7 @@ class UserNotificationController extends Controller
 }
 ```
 
-#### Send a qick SMS
+#### Send a qick SMS from a template
 ```php
 
 $notify = new MNotify();
