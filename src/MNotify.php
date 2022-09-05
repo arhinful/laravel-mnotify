@@ -36,8 +36,8 @@ class MNotify
 
     public function __construct()
     {
-        $this->apiKey = config('mnotify.api_key');
-        $this->sender = config('mnotify.sender_id');
+        $this->apiKey = env('MNOTIFY_KEY');
+        $this->sender = env('MNOTIFY_SENDER_ID');
         $this->isSchedule = false;
     }
 
