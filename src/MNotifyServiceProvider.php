@@ -2,7 +2,9 @@
 
 namespace Arhinful\LaravelMnotify;
 
+use Arhinful\LaravelMnotify\NotificationDriver\MNotifyChannel;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Notification;
 
 class MNotifyServiceProvider extends ServiceProvider
 {
@@ -14,7 +16,9 @@ class MNotifyServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        Notification::extend('mnotify', function ($app) {
+            return new MnotifyChannel();
+        });
     }
 
     /**
