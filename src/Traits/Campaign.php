@@ -8,8 +8,11 @@ use Illuminate\Support\Facades\Http;
 
 trait Campaign
 {
-    public function sendQuickSMS(array $recipients, $message=null){
+    public function sendQuickSMS(array|string $recipients, $message=null){
         $url = $this->attachKeyToURL($this->quickSMSURL);
+        if (!is_array($recipients)){
+            $recipients = [$recipients];
+        }
         $data = [
             'recipient' => $recipients,
             'sender' => $this->sender,
