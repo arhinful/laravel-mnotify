@@ -37,8 +37,8 @@ class UserNotificationController extends Controller
 {
     public function sendQuickReminder(){
         $notify = new MNotify();
-        // list of receivers, must be an array
-        $receivers = ['0542092800', '0507455860'];
+        // list of receivers, can be array (multiple receivers) or string (single receiver)
+        $receivers = ['0542092800', '0507455860']; // or $receivers = '0507455860';
         // message to send, must be string
         $message = "Hello users, a quick reminder, we have a scheduled meeting at 2:00 PM today.";
         $notify->sendQuickSMS($receivers, $message);
