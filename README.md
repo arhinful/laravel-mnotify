@@ -72,7 +72,7 @@ class TestNotification extends Notification
 
     public function via($notifiable)
     {
-        return ['mnotify'];
+        return [MNotifyChannel::class];
     }
 
     public function toMNotify($notifiable)
