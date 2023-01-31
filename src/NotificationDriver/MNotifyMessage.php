@@ -8,7 +8,7 @@ use Arhinful\LaravelMnotify\MNotify;
 
 class MNotifyMessage
 {
-    private $message;
+    private string $message;
 
     public function message(string $message): static
     {
@@ -16,7 +16,7 @@ class MNotifyMessage
         return $this;
     }
 
-    public function content(){
+    public function content() : string{
         return $this->message;
     }
 

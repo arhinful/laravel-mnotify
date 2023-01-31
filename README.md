@@ -54,3 +54,49 @@ $receivers = ['0542092800', '0507455860'];
 $message_template_id = 1;
 $notify->sendQuickSMSFromTemplate($receivers, $message_template_id);
 ```
+
+#### Use Notification Channel
+
+```php
+
+namespace App\Notifications;
+
+use Arhinful\LaravelMnotify\NotificationDriver\MNotifyMessage;
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Notifications\Notification;
+
+class TestNotification extends Notification
+{
+    use Queueable;
+
+    public function via($notifiable)
+    {
+        return ['mnotify'];
+    }
+
+    public function toMNotify($notifiable)
+    {
+        return (new MNotifyMessage())->message("Hello User: $notifiable->name");
+    }
+}
+```
+
+```php
+
+namespace App\Http\Controllers\EmailController;
+use App\Models\User;
+use App\Notifications\TestNotification;
+
+class EmailController extends controller
+{
+
+    public function notifyUserActio()
+    {
+        $user = \App\Models\User::first();
+        $user->notify(new TestNotification());
+        return "Message Sent";
+    }
+}
+
+```

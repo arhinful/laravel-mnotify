@@ -21,8 +21,13 @@ class MNotifyChannel
         $message = $notification->toMnotify($notifiable);
 
         $notifier = new MNotify();
-        $response = $notifier->sendQuickSMS([$mobile_number], $message->content);
-        Log::info("Mnotify response => $response");
-        return $response;
+        try {
+            $response = $notifier->sendQuickSMS([$mobile_number], $message->content());
+            Log::info("Mnotify response => $response");
+            return $response;
+        } catch (\Exception $exception){
+            Log::info("Mnotify Error => $exception");
+        }
+        return true;
     }
 }
