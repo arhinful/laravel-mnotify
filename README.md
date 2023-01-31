@@ -82,6 +82,27 @@ class TestNotification extends Notification
 }
 ```
 
+In your Model
+
+```php
+
+namespace App\Http\Controllers\EmailController;
+use App\Models\User;
+use App\Notifications\TestNotification;
+
+class EmailController extends controller
+{
+
+    // optional, but mobile number must exist among user's attributes if this method doesn't exist
+    public function routeNotificationForMNotify() : string{
+        return '0257906340';
+    }
+}
+
+```
+
+In your controller
+
 ```php
 
 namespace App\Http\Controllers\EmailController;
