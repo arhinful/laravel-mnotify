@@ -4,8 +4,6 @@
 namespace Arhinful\LaravelMnotify\NotificationDriver;
 
 
-use Arhinful\LaravelMnotify\MNotify;
-
 class MNotifyMessage
 {
     private string $message;
