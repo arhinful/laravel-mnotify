@@ -24,8 +24,11 @@ trait Campaign
         return $response;
     }
 
-    public function sendQuickSMSFromTemplate(array $recipients, int $message_template_id){
+    public function sendQuickSMSFromTemplate(array|string $recipients, int $message_template_id){
         $url = $this->attachKeyToURL($this->quickSMSURL);
+        if (!is_array($recipients)){
+            $recipients = [$recipients];
+        }
         $data = [
             'recipient' => $recipients,
             'sender' => $this->sender,
@@ -63,8 +66,11 @@ trait Campaign
         return $response;
     }
 
-    public function sendQuickVoiceCall(string $campaign, array $recipients, $uploaded_audio_file){
+    public function sendQuickVoiceCall(string $campaign, array|string $recipients, $uploaded_audio_file){
         $url = $this->attachKeyToURL($this->quickVoiceCallURL);
+        if (!is_array($recipients)){
+            $recipients = [$recipients];
+        }
         $data = [
             'campaign' => $campaign,
             'recipient' => $recipients,
@@ -81,8 +87,11 @@ trait Campaign
         return $response;
     }
 
-    public function sendQuickVoiceCallFromTemplate(string $campaign, array $recipients, $voice_template_id){
+    public function sendQuickVoiceCallFromTemplate(string $campaign, array|string $recipients, $voice_template_id){
         $url = $this->attachKeyToURL($this->quickVoiceCallURL);
+        if (!is_array($recipients)){
+            $recipients = [$recipients];
+        }
         $data = [
             'campaign' => $campaign,
             'recipient' => $recipients,
