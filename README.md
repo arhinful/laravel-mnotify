@@ -86,11 +86,9 @@ In your Model
 
 ```php
 
-namespace App\Http\Controllers\EmailController;
-use App\Models\User;
-use App\Notifications\TestNotification;
+use Illuminate\Database\Eloquent\Model;
 
-class EmailController extends controller
+class EmailController extends Model
 {
 
     // optional, but mobile number must exist among user's attributes if this method doesn't exist
@@ -112,7 +110,7 @@ use App\Notifications\TestNotification;
 class EmailController extends controller
 {
 
-    public function notifyUserActio()
+    public function notifyUserAction()
     {
         $user = \App\Models\User::first();
         $user->notify(new TestNotification());
