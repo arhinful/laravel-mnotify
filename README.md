@@ -122,6 +122,26 @@ $notify->getPeriodicSMSDeliveryReport('2023-01-01', '2023-01-31');
 $notify->getVoiceCallReport('campaign_id');
 ```
 
+### Voice Calls
+```php
+// Quick Bulk Voice Call (using audio file)
+$notify->sendQuickVoiceCall('Campaign Title', ['054xxxxxxx'], '/path/to/audio.mp3');
+
+// Quick Bulk Voice Call (using Voice ID)
+$notify->sendQuickVoiceCallFromTemplate('Campaign Title', ['054xxxxxxx'], 'voice_id_123');
+
+// Group Bulk Voice Call (using audio file)
+$notify->sendGroupVoiceCall('Campaign Title', ['group_id_1'], '/path/to/audio.mp3');
+
+// Group Bulk Voice Call (using Voice ID)
+$notify->sendGroupVoiceCallFromTemplate('Campaign Title', ['group_id_1'], 'voice_id_123');
+
+// Scheduled Voice Call (works with all above methods)
+$notify->setIsSchedule(true)
+       ->setScheduleDate('2023-12-25 08:00:00')
+       ->sendQuickVoiceCall('Campaign Title', ['054xxxxxxx'], '/path/to/audio.mp3');
+```
+
 ### IVR
 ```php
 // Initiate IVR Call
@@ -145,7 +165,7 @@ $notify->setIsSchedule(true)
 $notify->getScheduledSMS();
 
 // Update Scheduled SMS
-$notify->updateScheduledSMS(123, 'New message content');
+$notify->updateScheduledSMS(123, 'New message content', '2023-12-25 09:00:00');
 ```
 ---
 ## Testing

@@ -140,12 +140,14 @@ trait Campaign
         return $this->getRequest($url);
     }
 
-    public function updateScheduledSMS(int $id, string $message)
+    public function updateScheduledSMS(int $id, string $message, string $schedule_date, ?string $sender = null)
     {
         $url = $this->scheduledSMSURL . "/$id";
         $url = $this->attachKeyToURL($url);
         $data = [
-            'message' => $message
+            'message' => $message,
+            'scheduled_date' => $schedule_date,
+            'sender' => $sender ?? $this->sender
         ];
         return $this->postRequest($url, $data);
     }
