@@ -85,9 +85,7 @@ public function routeNotificationForMNotify(): string
     return $this->mobile; // column containing the phone number
 }
 ```
-    return $this->mobile; // column containing the phone number
-}
-```
+
 
 ### Sender ID
 ```php
