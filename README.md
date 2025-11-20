@@ -49,6 +49,15 @@ $notify = new MNotify();
 $notify->sendQuickSMSFromTemplate(['0542092800'], 1); // 1 = template ID in MNotify
 ```
 
+### Group Bulk SMS
+```php
+// Send to a Group
+$notify->sendGroupSMS(['group_id_1', 'group_id_2'], 'Hello Group!');
+
+// Send to a Group from Template
+$notify->sendGroupSMSFromTemplate(['group_id_1'], 1);
+```
+
 ### Laravel Notification Channel
 ```php
 use Illuminate\Notifications\Notification;
