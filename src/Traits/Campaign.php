@@ -134,6 +134,22 @@ trait Campaign
         return $response;
     }
 
+    public function getScheduledSMS()
+    {
+        $url = $this->attachKeyToURL($this->scheduledSMSURL);
+        return $this->getRequest($url);
+    }
+
+    public function updateScheduledSMS(int $id, string $message)
+    {
+        $url = $this->scheduledSMSURL . "/$id";
+        $url = $this->attachKeyToURL($url);
+        $data = [
+            'message' => $message
+        ];
+        return $this->postRequest($url, $data);
+    }
+
 }
 
 // send group sms using template

@@ -1,75 +1,62 @@
+# Laravel MNotify Package
 
-## LARAVEL MNOTIFY PACKAGE
+[![Packagist Version](https://img.shields.io/packagist/v/arhinful/laravel-mnotify.svg)](https://packagist.org/packages/arhinful/laravel-mnotify)
+[![License](https://img.shields.io/packagist/l/arhinful/laravel-mnotify.svg)](https://github.com/arhinful/laravel-mnotify/blob/main/LICENSE)
 
-This package allows you to send SMS and Call notifications to users using Mnotify.net APIs with ease.
+A **Laravel** package that provides a clean, expressive API for sending **SMS** and **voice call** notifications via the **MNotify** platform.
 
+---
+## Features
+- Simple, chainable API for quick SMS, templated SMS and voice calls.
+- Full Laravel Notification channel integration.
+- Publishable configuration file.
+- Supports Laravel 8, 9, 10, and 11.
+- No external dependencies – uses Guzzle under the hood.
+
+---
 ## Installation
-
-install with composer
-
 ```bash
-  composer require arhinful/laravel-mnotify
-```
-    
-## Usage/Examples
-
-Your receivers must be an array, eg: ['054....'], ['050...', '026...']
-set these keys in your .env file
-
-MNOTIFY_KEY=jie.....
-
-MNOTIFY_SENDER_ID="TreySoft CA"
-
-make sure MNOTIFY_SENDER_ID value is already set on your mnotify.net dashboard
-
-#### Send a qick SMS
-```php
-use Arhinful\LaravelMnotify\MNotify;
-
-<?php
-
-namespace App\Http\Controllers;
-
-use Arhinful\LaravelMnotify\MNotify;
-use Illuminate\Http\Request;
-
-class UserNotificationController extends Controller
-{
-    public function sendQuickReminder(){
-        $notify = new MNotify();
-        // list of receivers, can be array (multiple receivers) or string (single receiver)
-        $receivers = ['0542092800', '0507455860']; // or $receivers = '0507455860';
-        // message to send, must be string
-        $message = "Hello users, a quick reminder, we have a scheduled meeting at 2:00 PM today.";
-        $notify->sendQuickSMS($receivers, $message);
-    }
-}
+composer require arhinful/laravel-mnotify
 ```
 
-#### Send a qick SMS from a template
+The package will be auto‑discovered. If you need to publish the config file:
+```bash
+php artisan vendor:publish --provider="Arhinful\\LaravelMnotify\\MNotifyServiceProvider"
+```
+
+---
+## Configuration
+Add the following keys to your `.env` file:
+```dotenv
+MNOTIFY_KEY=your_api_key_here
+MNOTIFY_SENDER_ID="Your Sender Name"
+```
+The values must match those configured in your MNotify dashboard.
+
+---
+## Usage
+### Quick SMS
 ```php
+use Arhinful\LaravelMnotify\MNotify;
 
 $notify = new MNotify();
-$receivers = ['0542092800', '0507455860'];
-$message_template_id = 1;
-$notify->sendQuickSMSFromTemplate($receivers, $message_template_id);
+$notify->sendQuickSMS(['0542092800', '0507455860'], 'Hello, this is a quick reminder.');
 ```
 
-#### Use Notification Channel
-
+### SMS from Template
 ```php
+$notify = new MNotify();
+$notify->sendQuickSMSFromTemplate(['0542092800'], 1); // 1 = template ID in MNotify
+```
 
-namespace App\Notifications;
-
-use Arhinful\LaravelMnotify\NotificationDriver\MNotifyMessage;
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
+### Laravel Notification Channel
+```php
 use Illuminate\Notifications\Notification;
+use Arhinful\LaravelMnotify\NotificationDriver\MNotifyChannel;
+use Arhinful\LaravelMnotify\NotificationDriver\MNotifyMessage;
 
 class TestNotification extends Notification
 {
-    use Queueable;
-
     public function via($notifiable)
     {
         return [MNotifyChannel::class];
@@ -77,45 +64,84 @@ class TestNotification extends Notification
 
     public function toMNotify($notifiable)
     {
-        return (new MNotifyMessage())->message("Hello User: $notifiable->name");
+        return (new MNotifyMessage())
+            ->message("Hello {$notifiable->name}, your appointment is tomorrow.");
     }
 }
 ```
-
-In your Model
-
+In your model, define the phone number accessor:
 ```php
-
-use Illuminate\Database\Eloquent\Model;
-
-class EmailController extends Model
+public function routeNotificationForMNotify(): string
 {
-
-    // optional, but mobile number must exist among user's attributes if this method doesn't exist
-    public function routeNotificationForMNotify() : string{
-        return '0257906340';
-    }
+    return $this->mobile; // column containing the phone number
 }
-
+```
+    return $this->mobile; // column containing the phone number
+}
 ```
 
-In your controller
-
+### Sender ID
 ```php
+// Register a Sender ID
+$notify->registerSenderId('MyBrand', 'For OTP verification');
 
-namespace App\Http\Controllers\EmailController;
-use App\Models\User;
-use App\Notifications\TestNotification;
-
-class EmailController extends controller
-{
-
-    public function notifyUserAction()
-    {
-        $user = \App\Models\User::first();
-        $user->notify(new TestNotification());
-        return "Message Sent";
-    }
-}
-
+// Check Sender ID Status
+$notify->checkSenderIdStatus('MyBrand');
 ```
+
+### Balance Check
+```php
+// Check SMS Balance
+$notify->checkSMSBalance();
+
+// Check Voice Balance
+$notify->checkVoiceBalance();
+```
+
+### Reports
+```php
+// Get SMS Delivery Report
+$notify->getSMSDeliveryReport('campaign_id');
+
+// Get Specific SMS Report
+$notify->getSpecificSMSDeliveryReport('message_id');
+
+// Get Periodic SMS Report
+$notify->getPeriodicSMSDeliveryReport('2023-01-01', '2023-01-31');
+
+// Get Voice Call Report
+$notify->getVoiceCallReport('campaign_id');
+```
+
+### IVR
+```php
+// Initiate IVR Call
+$notify->initiateIVRCall(['054xxxxxxx'], 'audio_file_id_or_path');
+
+// Get IVR Scenarios
+$notify->getIVRScenarios();
+
+// Launch IVR Scenario
+$notify->launchIVRScenario(123, ['054xxxxxxx']);
+```
+
+### Scheduled SMS
+```php
+// Get Scheduled SMS
+$notify->getScheduledSMS();
+
+// Update Scheduled SMS
+$notify->updateScheduledSMS(123, 'New message content');
+```
+---
+## Testing
+```bash
+vendor/bin/phpunit
+```
+---
+## Contributing
+Feel free to open issues or submit pull requests. Please follow the PSR‑12 coding style.
+
+---
+## License
+This package is open‑source software licensed under the **MIT License**.

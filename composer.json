@@ -1,20 +1,43 @@
 {
     "name": "arhinful/laravel-mnotify",
-    "description": "laravel package for mnotify.net",
+    "description": "Laravel package for MNotify SMS and voice notifications",
     "type": "library",
-    "require": {},
     "license": "MIT",
-    "autoload": {
-        "psr-4": {
-            "Arhinful\\LaravelMnotify\\": "src/"
-        }
-    },
     "authors": [
         {
             "name": "Arhinful Emmanuel",
             "email": "kofibusy@gmail.com"
         }
     ],
-    "minimum-stability": "dev",
-    "prefer-stable" : true
+    "require": {
+        "php": "^8.2",
+        "laravel/framework": "^8.0|^9.0|^10.0|^11.0|^12.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Arhinful\\LaravelMnotify\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Arhinful\\LaravelMnotify\\MNotifyServiceProvider"
+            ],
+            "dont-discover": []
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "homepage": "https://github.com/arhinful/laravel-mnotify",
+    "repository": {
+        "type": "vcs",
+        "url": "https://github.com/arhinful/laravel-mnotify"
+    },
+    "keywords": [
+        "laravel",
+        "sms",
+        "mnotify",
+        "notification",
+        "voice"
+    ]
 }
