@@ -136,6 +136,11 @@ $notify->launchIVRScenario(123, ['054xxxxxxx']);
 
 ### Scheduled SMS
 ```php
+// Send a Scheduled SMS
+$notify->setIsSchedule(true)
+       ->setScheduleDate('2023-12-25 08:00:00')
+       ->sendQuickSMS(['054xxxxxxx'], 'Merry Christmas!');
+
 // Get Scheduled SMS
 $notify->getScheduledSMS();
 
