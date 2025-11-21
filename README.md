@@ -1,7 +1,8 @@
 # Laravel MNotify Package
 
-[![Packagist Version](https://img.shields.io/packagist/v/arhinful/laravel-mnotify.svg)](https://packagist.org/packages/arhinful/laravel-mnotify)
-[![License](https://img.shields.io/packagist/l/arhinful/laravel-mnotify.svg)](https://github.com/arhinful/laravel-mnotify/blob/main/LICENSE)
+[![Latest Stable Version](https://img.shields.io/packagist/v/arhinful/laravel-mnotify.svg?style=flat&color=4CAF50)](https://packagist.org/packages/arhinful/laravel-mnotify)
+[![Total Downloads](https://img.shields.io/packagist/dt/arhinful/laravel-mnotify.svg?style=flat&color=2196F3)](https://packagist.org/packages/arhinful/laravel-mnotify)
+[![License](https://img.shields.io/packagist/l/arhinful/laravel-mnotify.svg?style=flat&color=795548)](LICENSE)
 
 A **Laravel** package that provides a clean, expressive API for sending **SMS** and **voice call** notifications via the **MNotify** platform.
 
