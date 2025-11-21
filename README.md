@@ -15,6 +15,21 @@ A **Laravel** package that provides a clean, expressive API for sending **SMS** 
 - No external dependencies – uses Guzzle under the hood.
 
 ---
+## Why Laravel MNotify?
+- Clean & fluent API that feels like native Laravel.
+- Complete coverage of all major MNotify features.
+- Seamless integration with Laravel’s Notification system.
+- Zero configuration required (auto-discovery).
+- Actively maintained and now updated for Laravel 8 → 12.
+
+---
+## Requirements
+- PHP 8.0+
+- Laravel 8 – 12
+- A valid MNotify API key
+- Mnotify Sender name
+
+---
 ## Installation
 ```bash
 composer require arhinful/laravel-mnotify
@@ -36,7 +51,10 @@ The values must match those configured in your MNotify dashboard.
 
 ---
 ## Usage
-### Quick SMS
+
+### 📱 SMS Notifications
+
+#### Quick SMS
 ```php
 use Arhinful\LaravelMnotify\MNotify;
 
@@ -44,13 +62,13 @@ $notify = new MNotify();
 $notify->sendQuickSMS(['0542092800', '0507455860'], 'Hello, this is a quick reminder.');
 ```
 
-### SMS from Template
+#### SMS from Template
 ```php
 $notify = new MNotify();
 $notify->sendQuickSMSFromTemplate(['0542092800'], 1); // 1 = template ID in MNotify
 ```
 
-### Group Bulk SMS
+#### Group Bulk SMS
 ```php
 // Send to a Group
 $notify->sendGroupSMS(['group_id_1', 'group_id_2'], 'Hello Group!');
@@ -59,69 +77,25 @@ $notify->sendGroupSMS(['group_id_1', 'group_id_2'], 'Hello Group!');
 $notify->sendGroupSMSFromTemplate(['group_id_1'], 1);
 ```
 
-### Laravel Notification Channel
+#### Scheduled SMS
 ```php
-use Illuminate\Notifications\Notification;
-use Arhinful\LaravelMnotify\NotificationDriver\MNotifyChannel;
-use Arhinful\LaravelMnotify\NotificationDriver\MNotifyMessage;
+// Send a Scheduled SMS
+$notify->setIsSchedule(true)
+       ->setScheduleDate('2023-12-25 08:00:00')
+       ->sendQuickSMS(['054xxxxxxx'], 'Merry Christmas!');
 
-class TestNotification extends Notification
-{
-    public function via($notifiable)
-    {
-        return [MNotifyChannel::class];
-    }
+// Get Scheduled SMS
+$notify->getScheduledSMS();
 
-    public function toMNotify($notifiable)
-    {
-        return (new MNotifyMessage())
-            ->message("Hello {$notifiable->name}, your appointment is tomorrow.");
-    }
-}
-```
-In your model, define the phone number accessor:
-```php
-public function routeNotificationForMNotify(): string
-{
-    return $this->mobile; // column containing the phone number
-}
+// Update Scheduled SMS
+$notify->updateScheduledSMS(123, 'New message content', '2023-12-25 09:00:00');
 ```
 
+---
 
-### Sender ID
-```php
-// Register a Sender ID
-$notify->registerSenderId('MyBrand', 'For OTP verification');
+### 📞 Voice Calls & IVR
 
-// Check Sender ID Status
-$notify->checkSenderIdStatus('MyBrand');
-```
-
-### Balance Check
-```php
-// Check SMS Balance
-$notify->checkSMSBalance();
-
-// Check Voice Balance
-$notify->checkVoiceBalance();
-```
-
-### Reports
-```php
-// Get SMS Delivery Report
-$notify->getSMSDeliveryReport('campaign_id');
-
-// Get Specific SMS Report
-$notify->getSpecificSMSDeliveryReport('message_id');
-
-// Get Periodic SMS Report
-$notify->getPeriodicSMSDeliveryReport('2023-01-01', '2023-01-31');
-
-// Get Voice Call Report
-$notify->getVoiceCallReport('campaign_id');
-```
-
-### Voice Calls
+#### Voice Calls
 ```php
 // Quick Bulk Voice Call (using audio file)
 $notify->sendQuickVoiceCall('Campaign Title', ['054xxxxxxx'], '/path/to/audio.mp3');
@@ -141,7 +115,7 @@ $notify->setIsSchedule(true)
        ->sendQuickVoiceCall('Campaign Title', ['054xxxxxxx'], '/path/to/audio.mp3');
 ```
 
-### IVR
+#### IVR
 ```php
 // Initiate IVR Call
 $notify->initiateIVRCall(['054xxxxxxx'], 'audio_file_id_or_path');
@@ -153,18 +127,75 @@ $notify->getIVRScenarios();
 $notify->launchIVRScenario(123, ['054xxxxxxx']);
 ```
 
-### Scheduled SMS
+---
+
+### 📊 Account & Reports
+
+#### Balance Check
 ```php
-// Send a Scheduled SMS
-$notify->setIsSchedule(true)
-       ->setScheduleDate('2023-12-25 08:00:00')
-       ->sendQuickSMS(['054xxxxxxx'], 'Merry Christmas!');
+// Check SMS Balance
+$notify->checkSMSBalance();
 
-// Get Scheduled SMS
-$notify->getScheduledSMS();
+// Check Voice Balance
+$notify->checkVoiceBalance();
+```
 
-// Update Scheduled SMS
-$notify->updateScheduledSMS(123, 'New message content', '2023-12-25 09:00:00');
+#### Sender ID
+```php
+// Register a Sender ID
+$notify->registerSenderId('MyBrand', 'For OTP verification');
+
+// Check Sender ID Status
+$notify->checkSenderIdStatus('MyBrand');
+```
+
+#### Reports
+```php
+// Get SMS Delivery Report
+$notify->getSMSDeliveryReport('campaign_id');
+
+// Get Specific SMS Report
+$notify->getSpecificSMSDeliveryReport('message_id');
+
+// Get Periodic SMS Report
+$notify->getPeriodicSMSDeliveryReport('2023-01-01', '2023-01-31');
+
+// Get Voice Call Report
+$notify->getVoiceCallReport('campaign_id');
+```
+
+---
+
+### 🔔 Laravel Notification Channel
+
+Use the `MNotifyChannel` to send notifications via Laravel's built-in system.
+
+```php
+use Illuminate\Notifications\Notification;
+use Arhinful\LaravelMnotify\NotificationDriver\MNotifyChannel;
+use Arhinful\LaravelMnotify\NotificationDriver\MNotifyMessage;
+
+class TestNotification extends Notification
+{
+    public function via($notifiable)
+    {
+        return [MNotifyChannel::class];
+    }
+
+    public function toMNotify($notifiable)
+    {
+        return (new MNotifyMessage())
+            ->message("Hello {$notifiable->name}, your appointment is tomorrow.");
+    }
+}
+```
+
+In your model, define the phone number accessor:
+```php
+public function routeNotificationForMNotify(): string
+{
+    return $this->mobile; // column containing the phone number
+}
 ```
 ---
 ## Testing

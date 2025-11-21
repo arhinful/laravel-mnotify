@@ -39,7 +39,13 @@ trait Actions
         return $response;
     }
 
-    private function attachKeyToURL(string $end_point){
-        return "$end_point/?key={$this->apiKey}";
+    private function attachKeyToURL(string $end_point): string{
+        $query = parse_url($end_point, PHP_URL_QUERY);
+        
+        if ($query) {
+            return "$end_point&key={$this->apiKey}";
+        }
+
+        return "$end_point?key={$this->apiKey}";
     }
 }
