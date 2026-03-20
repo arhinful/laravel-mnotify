@@ -62,6 +62,14 @@ $notify = new MNotify();
 $notify->sendQuickSMS(['0542092800', '0507455860'], 'Hello, this is a quick reminder.');
 ```
 
+#### Quick SMS with Named Sender ID (Override MNOTIFY_SENDER_ID in the dotenv file)
+```php
+use Arhinful\LaravelMnotify\MNotify;
+
+$notify = new MNotify('Your Sender Name');
+$notify->sendQuickSMS(['0542092800', '0507455860'], 'Hello, this is a quick reminder with a named sender ID.');
+```
+
 #### SMS from Template
 ```php
 $notify = new MNotify();
