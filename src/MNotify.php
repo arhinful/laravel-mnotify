@@ -58,10 +58,10 @@ class MNotify
     private $message_template;
     private $groups;
 
-    public function __construct()
+    public function __construct(?string $senderId = null)
     {
         $this->apiKey = env('MNOTIFY_KEY', '');
-        $this->sender = env('MNOTIFY_SENDER_ID', '');
+        $this->sender = $senderId ?? env('MNOTIFY_SENDER_ID', '');
         $this->isSchedule = false;
     }
 
