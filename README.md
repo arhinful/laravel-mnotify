@@ -11,7 +11,7 @@ A **Laravel** package that provides a clean, expressive API for sending **SMS** 
 - Simple, chainable API for quick SMS, templated SMS and voice calls.
 - Full Laravel Notification channel integration.
 - Publishable configuration file.
-- Supports Laravel 8, 9, 10, 11, and 12.
+- Supports Laravel 8, 9, 10, 11, 12, and 13.
 - No external dependencies – uses Guzzle under the hood.
 
 ---
