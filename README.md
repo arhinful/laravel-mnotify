@@ -25,7 +25,7 @@ A **Laravel** package that provides a clean, expressive API for sending **SMS** 
 ---
 ## Requirements
 - PHP 8.0+
-- Laravel 8 – 12
+- Laravel 8 – 13
 - A valid MNotify API key
 - Mnotify Sender name
 
