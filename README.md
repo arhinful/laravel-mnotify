@@ -20,7 +20,7 @@ A **Laravel** package that provides a clean, expressive API for sending **SMS** 
 - Complete coverage of all major MNotify features.
 - Seamless integration with Laravel’s Notification system.
 - Zero configuration required (auto-discovery).
-- Actively maintained and now updated for Laravel 8 → 12.
+- Actively maintained and now updated for Laravel 8 → 13.
 
 ---
 ## Requirements
